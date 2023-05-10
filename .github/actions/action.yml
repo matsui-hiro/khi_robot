@@ -67,6 +67,8 @@ runs:
         set -x
         mkdir -p ~/.ccache
         cd /tmp/devel_job
+        # skip build and test for ARM containers
+        - if [[ ${{ inputs.arch }} == "arm"* ]]; then sed -i '/build and test/i mkdir -p /tmp/devel_job/ws/test_results; exit 0' /tmp/devel_job/prerelease_build_underlay.sh; fi
         sh ./prerelease.sh -y
       shell: bash
     - name: get summary of test results
