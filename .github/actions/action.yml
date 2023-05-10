@@ -25,7 +25,7 @@ runs:
     - name: install the latest released version of ros_buildfarm
       run: |
         # install QEMU for running ARM containers
-        if [[ "$ARCH" == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
+        if [[ ${{ inputs.arch }}  == "arm"* ]]; then sudo apt update && sudo apt install -qy qemu-user-static; fi
         sudo apt install -q -y python3-setuptools python3-pip
         sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
         sudo -H pip3 install wheel
