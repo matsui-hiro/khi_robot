@@ -95,6 +95,8 @@ private:
     bool loadDriverParam( const int& cont_no, KhiRobotData& data );
     bool loadRtcProg( const int& cont_no, const std::string& name );
     bool syncRtcPos( const int& cont_no, KhiRobotData& data );
+    float duaro2_deg2m( const float& joint_degvalue );
+    float duaro2_m2deg( const float& joint_mvalue );
 };
 
 } // namespace

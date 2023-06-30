@@ -368,7 +368,16 @@ bool KhiRobotKrnxDriver::activate( const int& cont_no, KhiRobotData& data )
                 if ( data.arm[ano].type[jt] == urdf::Joint::PRISMATIC ) { conv = KHI_KRNX_M2MM; }
                 else { conv = 1; }
 
-                diff = data.arm[ano].home[jt]*conv - motion_data.ang[jt];
+                if( data.arm[ano].type[jt] == KHI_DUARO2_JOINT3_TYPE)
+                { 
+                    diff = duaro2_m2deg( data.arm[ano].home[jt] ) - motion_data.ang[jt];
+                }
+                else
+                {
+                    diff = data.arm[ano].home[jt]*conv - motion_data.ang[jt];                    
+                }
+                
+
                 if ( fabs(diff) > KHI_KRNX_ACTIVATE_TH )
                 {
                     is_ready = false;
@@ -596,6 +605,11 @@ bool KhiRobotKrnxDriver::readData( const int& cont_no, KhiRobotData& data )
                 data.arm[ano].pos[jt] /= KHI_KRNX_M2MM;
                 data.arm[ano].vel[jt] /= KHI_KRNX_M2MM;
             }
+            else if( data.arm[ano].type[jt] == KHI_DUARO2_JOINT3_TYPE )
+            {
+                data.arm[ano].pos[jt] = duaro2_deg2m (data.arm[ano].pos[jt]);
+                data.arm[ano].vel[jt] = duaro2_deg2m (data.arm[ano].vel[jt]);
+            }
         }
     }
 
@@ -616,7 +630,7 @@ bool KhiRobotKrnxDriver::setRobotDataHome( const int& cont_no, KhiRobotData& dat
     KhiRobotData base;
     int arm_num = data.arm_num;
 
-    if ( data.robot_name == KHI_ROBOT_WD002N )
+    if ( data.robot_name == KHI_ROBOT_WD002N || data.robot_name == KHI_ROBOT_WD003H)
     {
         data.arm[0].home[0] = -45.0f*M_PI/180;
         data.arm[0].home[1] = 45.0f*M_PI/180;
@@ -687,6 +701,11 @@ bool KhiRobotKrnxDriver::writeData( const int& cont_no, const KhiRobotData& data
             {
                 p_rtc_data->comp[ano][jt] *= KHI_KRNX_M2MM;
             }
+            else if( data.arm[ano].type[jt] == KHI_DUARO2_JOINT3_TYPE )
+            {
+                p_rtc_data->comp[ano][jt] = duaro2_m2deg ( (float)data.arm[ano].cmd[jt]) -  duaro2_m2deg (data.arm[ano].home[jt]);
+            }
+
         }
     }
 
@@ -712,6 +731,12 @@ bool KhiRobotKrnxDriver::writeData( const int& cont_no, const KhiRobotData& data
                     jt_pos /= KHI_KRNX_M2MM;
                     jt_vel /= KHI_KRNX_M2MM;
                 }
+                else if( data.arm[ano].type[jt] == KHI_DUARO2_JOINT3_TYPE )
+                {
+                    jt_pos = duaro2_deg2m (motion_data.ang_ref[jt]);
+                    jt_vel = (duaro2_deg2m(p_rtc_data->comp[ano][jt]) - duaro2_deg2m(p_rtc_data->old_comp[ano][jt]) )*(1e+9/cont_info[cont_no].period);
+                }
+
                 snprintf( status, sizeof(status), "[%d]%.4f:%.4f:%d ", jt+1, jt_pos, jt_vel, p_rtc_data->status[ano][jt] );
                 strcat( msg, status );
                 ROS_WARN("JT%d:%f,%f,%f,%f,%f,%f", jt+1, data.arm[ano].cmd[jt], data.arm[ano].home[jt]+p_rtc_data->comp[ano][jt],p_rtc_data->old_comp[ano][jt], p_rtc_data->comp[ano][jt], data.arm[ano].home[jt], motion_data.ang_ref[jt]);
@@ -852,7 +877,7 @@ bool KhiRobotKrnxDriver::loadRtcProg( const int& cont_no, const std::string& nam
         if ( rsize < 0 ) { return false; }
 
         /* RTC program */
-        if ( name == KHI_ROBOT_WD002N )
+        if ( name == KHI_ROBOT_WD002N || name == KHI_ROBOT_WD003H)
         {
             fprintf( fp, ".PROGRAM rb_rtc1()\n" );
             fprintf( fp, "  HERE #rtchome1\n" );
@@ -917,6 +942,11 @@ bool KhiRobotKrnxDriver::syncRtcPos( const int& cont_no, KhiRobotData& data )
             {
                 data.arm[ano].home[jt] /= KHI_KRNX_M2MM;
             }
+            else if( data.arm[ano].type[jt] == KHI_DUARO2_JOINT3_TYPE )
+            {
+                data.arm[ano].home[jt] = duaro2_deg2m (data.arm[ano].home[jt]);
+            }
+
         }
     }
 
@@ -1060,6 +1090,26 @@ bool KhiRobotKrnxDriver::commandHandler( khi_robot_msgs::KhiRobotCmd::Request& r
     }
 
     return true;
+}
+
+float KhiRobotKrnxDriver::duaro2_deg2m( const float& joint_degvalue )
+{
+    float ret = 0.0f;
+
+    ret = 0.274f + 0.276f * cos( joint_degvalue );
+
+    return ret;
+}
+
+float KhiRobotKrnxDriver::duaro2_m2deg( const float& joint_mvalue )
+{
+    float ret = 0.0f;
+    float tmp_value = 0.0f;
+
+    tmp_value = ( (joint_mvalue - 0.274f)/0.276f );
+    ret = acos( tmp_value );
+
+    return ret;
 }
 
 } // end of khi_robot_control namespace

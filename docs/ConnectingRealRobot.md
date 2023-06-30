@@ -8,6 +8,7 @@ Controllers with ”✓”  are available.
 ||E01(OpenAs)|E02(OpenAs)|F01|F02|F60|F61|
 |---|---|---|---|---|---|---|
 |duaro1||||||✓|
+|duaro2||||||✓|
 |rs007l|||✓||✓||
 |rs007n|||✓||✓||
 |rs013n|||✓||✓||

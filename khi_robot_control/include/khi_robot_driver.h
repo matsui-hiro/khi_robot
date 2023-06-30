@@ -44,6 +44,10 @@ namespace khi_robot_control
 #define KHI_MAX_ARM 2
 #define KHI_MAX_JOINT 18
 #define KHI_MAX_SIG_SIZE 512
+#define KHI_DUARO2_JOINT3_TYPE -1
+#define KHI_DUARO2_JOINT3 2
+#define KHI_ROBOT_WD003H "WD003H"
+
 
 struct KhiRobotArmData
 {

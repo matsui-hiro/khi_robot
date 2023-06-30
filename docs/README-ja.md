@@ -49,6 +49,7 @@ roslaunch ***_moveit_config moveit_planning_execution.launch
 ## サポートしているロボット
 
  * duaro1
+ * duaro2(ノート[duAro2について](#duAro2について)参照)
  * rs007l
  * rs007n
  * rs013n
@@ -126,3 +127,6 @@ ok: True
 
 `***_ description`はKHIウェブサイトで提供するCADデータを元にしたSTLファイルを使用しています。  
 そのため、これらのファイルにも[CADデータ利用上の注意](https://robotics.kawasaki.com/ja1/products/CAD-disclaimer/)が適用されるのでご注意ください。
+
+### duAro2について
+機構的な要因により, 上下アームのJT3はASソフトと異なり直動軸として定義しています。(ASソフトでは回転軸)　そのためJT3の可動範囲は0.03 から　0.3[m] となります。

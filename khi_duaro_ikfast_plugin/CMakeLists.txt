@@ -42,3 +42,24 @@ install(
   DESTINATION
   ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
+set(IKFAST_LIBRARY_NAME_L khi_duaro2_lower_arm_moveit_ikfast_plugin)
+set(IKFAST_LIBRARY_NAME_U khi_duaro2_upper_arm_moveit_ikfast_plugin)
+
+find_package(LAPACK REQUIRED)
+
+add_library(${IKFAST_LIBRARY_NAME_L} src/khi_duaro2_lower_arm_ikfast_moveit_plugin.cpp)
+add_library(${IKFAST_LIBRARY_NAME_U} src/khi_duaro2_upper_arm_ikfast_moveit_plugin.cpp)
+target_link_libraries(${IKFAST_LIBRARY_NAME_L} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${LAPACK_LIBRARIES})
+target_link_libraries(${IKFAST_LIBRARY_NAME_U} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${LAPACK_LIBRARIES})
+
+install(TARGETS ${IKFAST_LIBRARY_NAME_L} ${IKFAST_LIBRARY_NAME_U} LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+
+install(
+  FILES
+  khi_duaro2_lower_arm_moveit_ikfast_plugin_description.xml
+  khi_duaro2_upper_arm_moveit_ikfast_plugin_description.xml
+  DESTINATION
+  ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+

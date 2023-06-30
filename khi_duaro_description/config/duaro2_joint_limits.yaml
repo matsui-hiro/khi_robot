@@ -1,0 +1,68 @@
+# joint_limits.yaml allows the dynamics properties specified in the URDF to be overwritten or augmented as needed
+# Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
+# Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
+joint_limits:
+  lower_joint1:
+    has_position_limits: true
+    min_position: -2.96705972839
+    max_position: 2.96705972839
+    has_velocity_limits: true
+    max_velocity: 4.18879020478
+    has_acceleration_limits: true
+    max_acceleration: 2.30383461263
+  lower_joint2:
+    has_position_limits: true
+    min_position: -2.26892802759
+    max_position: 2.44346095279
+    has_velocity_limits: true
+    max_velocity: 5.49778714378
+    has_acceleration_limits: true
+    max_acceleration: 3.926990816987
+  lower_joint3:
+    has_position_limits: true
+    min_position: 0.02
+    max_position: 0.53
+    has_velocity_limits: true
+    max_velocity: 0.300
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  lower_joint4:
+    has_position_limits: true
+    min_position: -6.28318530718
+    max_position: 6.28318530718
+    has_velocity_limits: true
+    max_velocity: 10.26253600172
+    has_acceleration_limits: true
+    max_acceleration: 20.94395102393
+  upper_joint1:
+    has_position_limits: true
+    min_position: -2.44346095279
+    max_position: 8.72664625997
+    has_velocity_limits: true
+    max_velocity: 4.18879020478
+    has_acceleration_limits: true
+    max_acceleration: 2.30383461263
+  upper_joint2:
+    has_position_limits: true
+    min_position: -2.44346095279
+    max_position: 2.26892802759
+    has_velocity_limits: true
+    max_velocity: 5.49778714378
+    has_acceleration_limits: true
+    max_acceleration: 3.92699081698
+  upper_joint3:
+    has_position_limits: true
+    min_position: 0.02
+    max_position: 0.53
+    has_velocity_limits: true
+    max_velocity: 0.3
+    has_acceleration_limits: true
+    max_acceleration: 3.0
+  upper_joint4:
+    has_position_limits: true
+    min_position: -6.28318530718
+    max_position: 6.28318530718
+    has_velocity_limits: true
+    max_velocity: 10.26253600172
+    has_acceleration_limits: true
+    max_acceleration: 20.94395102393

@@ -49,6 +49,7 @@ Refer to [docs/ConnectingRealRobot.md](docs/ConnectingRealRobot.md)
 ## Supported Robot
 
  * duaro1
+ * duaro2(see note [#About duaro2](#About-duaro2))
  * rs007l
  * rs007n
  * rs013n
@@ -126,6 +127,10 @@ ok: True
 
 `***_ description` are using STL files based on CAD Data of the KHI website.  
 Therefore [KHI CAD Data Disclaimer](https://robotics.kawasaki.com/en1/products/CAD-disclaimer/?language_id=1) is also applied to these files.
+
+### About duaro2
+Due to mechanical factors, the JT3 of the upper and lower arms are defined as linear motion axes, unlike AS software(rotate axis). Therefore the range of JT3 is 0.03 to 0.3[m].
+
 
 ## Other Languages
 

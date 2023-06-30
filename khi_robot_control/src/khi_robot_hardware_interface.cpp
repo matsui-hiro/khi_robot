@@ -78,6 +78,10 @@ bool KhiRobotHardwareInterface::open( const std::string& robot_name, const std::
                         data.arm[ano].name[jt] = joint_names[n];
                         auto jt_ptr = model.getJoint( joint_names[n] );
                         data.arm[ano].type[jt] = jt_ptr->type;
+
+                        if ( data.robot_name == "WD003H" && jt == KHI_DUARO2_JOINT3 )
+                        { data.arm[ano].type[jt] = KHI_DUARO2_JOINT3_TYPE;}
+
                         hardware_interface::JointStateHandle state_handle( data.arm[ano].name[jt], &data.arm[ano].pos[jt], &data.arm[ano].vel[jt], &data.arm[ano].eff[jt] );
                         joint_state_interface.registerHandle( state_handle );
                         hardware_interface::JointHandle pos_handle( joint_state_interface.getHandle( data.arm[ano].name[jt] ), &data.arm[ano].cmd[jt] );
